@@ -46,7 +46,17 @@
     <div class="modal-backdrop" id="compositionModalBackdrop"></div>
     <div class="modal" id="compositionModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-header"><h3 id="modalTitle">Équipe pour le match</h3><p id="modalSubtitle"></p></div><div class="modal-body"><ul class="player-list" id="playerList"></ul><h4 class="modal-section-title">Équipe sélectionnée</h4><ul class="selected-team-list" id="selectedTeamList"></ul><div class="team-composition-status" id="teamCompositionStatus"></div></div><div class="modal-footer"><button type="button" class="action-btn" id="cancelCompositionBtn" style="background: var(--text-secondary);">Annuler</button><button type="button" class="action-btn" id="saveCompositionBtn">Sauvegarder</button></div></div>
     <div class="modal-backdrop" id="helpModalBackdrop"></div>
-    <div class="modal" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle"><div class="modal-header"><h3 id="helpModalTitle">💡 Guide d'utilisation</h3></div><div class="modal-body help-modal-body"><div class="help-section"><h4>📅 Consulter les matchs</h4><p>Utilisez la barre de recherche pour trouver un match par nom d'équipe, date ou joueur sélectionné. Les filtres vous permettent d'afficher les matchs par lieu (domicile/extérieur) ou par mois.</p></div><div class="help-section"><h4>👥 Composer votre équipe</h4><p>Pour chaque match, vous pouvez définir la composition de l'équipe :</p><ul><li>Cliquez sur le bouton <code>👥 Gérer l'équipe</code>.</li><li>Indiquez le statut de chaque joueur : Disponible (✔️), Indisponible (❌) ou Sans réponse (❔).</li><li>Pour les joueurs disponibles, cliquez sur <code>➕</code> pour les ajouter à l'équipe.</li><li>Une fois votre sélection faite, cliquez sur <code>Sauvegarder</code>.</li></ul></div><div class="help-section"><h4>🌐 Données Partagées</h4><p>Les compositions d'équipe sont sauvegardées en ligne. Toute modification faite par un utilisateur sera visible par tous les autres.</p></div><div class="help-section"><h4>📱 Application Mobile</h4><p>Cette page est une Progressive Web App (PWA). Vous pouvez l'installer sur l'écran d'accueil de votre téléphone via le bouton <code>📱 Installer</code> pour un accès rapide !</p></div></div><div class="modal-footer"><button type="button" class="action-btn" id="closeHelpBtn">Compris !</button></div></div>
+    <div class="modal" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+        <div class="modal-header"><h3 id="helpModalTitle">💡 Guide d'utilisation</h3></div>
+        <div class="modal-body help-modal-body">
+            <div class="help-section"><h4>📅 Consulter les matchs</h4><p>Utilisez la barre de recherche et les filtres pour trouver rapidement un match.</p></div>
+            <div class="help-section"><h4>👥 Composer votre équipe</h4><p>Cliquez sur <code>👥 Gérer l'équipe</code> pour définir les disponibilités (✔️ / ❌ / ❔) et sélectionner les 4 joueurs de la rencontre.</p></div>
+            <div class="help-section"><h4>📊 Saisir les scores</h4><p>Après un match, cliquez sur <code>📊 Saisir score</code> pour enregistrer le résultat final. Le score s'affichera sur la carte avec une couleur indiquant la victoire, le nul ou la défaite.</p></div>
+            <div class="help-section"><h4>🌐 Données Partagées</h4><p>Les compositions d'équipe et les scores sont sauvegardés en ligne. Toute modification faite par un utilisateur sera visible par tous les autres.</p></div>
+            <div class="help-section"><h4>📱 Application Mobile</h4><p>Installez l'application sur votre téléphone via le bouton <code>📱 Installer</code> pour un accès rapide, même hors ligne !</p></div>
+        </div>
+        <div class="modal-footer"><button type="button" class="action-btn" id="closeHelpBtn">Compris !</button></div>
+    </div>
     
     <!-- NOUVELLE MODALE POUR LES SCORES -->
     <div class="modal-backdrop" id="scoreModalBackdrop"></div>
@@ -85,13 +95,11 @@
         const getDefaultScore = () => ({ alsatia: 0, opponent: 0 });
 
         // --- DOM ELEMENTS & STATE ---
-        // ... (éléments existants)
         const matchesGrid = document.getElementById('matchesGrid'), searchInput = document.getElementById("searchInput"), filterButtons = document.querySelectorAll(".filter-btn"), resultsInfo = document.getElementById("resultsInfo"), noResults = document.getElementById("noResults");
         const compositionModal = document.getElementById('compositionModal'), modalBackdrop = document.getElementById('compositionModalBackdrop'), modalTitle = document.getElementById('modalTitle'), modalSubtitle = document.getElementById('modalSubtitle'), playerList = document.getElementById('playerList'), selectedTeamList = document.getElementById('selectedTeamList'), teamCompositionStatus = document.getElementById('teamCompositionStatus'), saveCompositionBtn = document.getElementById('saveCompositionBtn'), cancelCompositionBtn = document.getElementById('cancelCompositionBtn');
         const helpBtn = document.getElementById('helpBtn'), helpModal = document.getElementById('helpModal'), helpModalBackdrop = document.getElementById('helpModalBackdrop'), closeHelpBtn = document.getElementById('closeHelpBtn');
         const themeToggle = document.getElementById('themeToggle'), themeIcon = document.getElementById('themeIcon'), themeText = document.getElementById('themeText');
         const pwaStatus = document.getElementById('pwaStatus'), installBtn = document.getElementById('installBtn');
-        // NOUVEAUX ÉLÉMENTS POUR LE SCORE
         const scoreModal = document.getElementById('scoreModal'), scoreModalBackdrop = document.getElementById('scoreModalBackdrop'), scoreModalTitle = document.getElementById('scoreModalTitle'), scoreModalSubtitle = document.getElementById('scoreModalSubtitle'), alsatiaScoreInput = document.getElementById('alsatiaScoreInput'), opponentScoreInput = document.getElementById('opponentScoreInput'), opponentScoreLabel = document.getElementById('opponentScoreLabel'), saveScoreBtn = document.getElementById('saveScoreBtn'), cancelScoreBtn = document.getElementById('cancelScoreBtn');
 
         let matchesData = [], currentFilter = 'all', currentSearch = '', currentEditingMatchId = null, tempComposition = null, deferredPrompt;
@@ -113,16 +121,8 @@
                 card.dataset.matchId = match.id;
                 const selectedCount = (match.composition?.selected || []).length;
                 const teamStatusHTML = selectedCount > 0 ? `<div class="team-status">👥 ${selectedCount}/${TEAM_SIZE}</div>` : '';
-                
-                // NOUVEAU: Affichage du score
                 let scoreHTML = '';
-                if (match.score && (match.score.alsatia > 0 || match.score.opponent > 0)) {
-                    let scoreClass = 'draw';
-                    if (match.score.alsatia > match.score.opponent) scoreClass = 'win';
-                    else if (match.score.alsatia < match.score.opponent) scoreClass = 'loss';
-                    scoreHTML = `<div class="score-display ${scoreClass}">${match.score.alsatia} - ${match.score.opponent}</div>`;
-                }
-
+                if (match.score && (match.score.alsatia > 0 || match.score.opponent > 0)) { let scoreClass = 'draw'; if (match.score.alsatia > match.score.opponent) scoreClass = 'win'; else if (match.score.alsatia < match.score.opponent) scoreClass = 'loss'; scoreHTML = `<div class="score-display ${scoreClass}">${match.score.alsatia} - ${match.score.opponent}</div>`; }
                 let selectedPlayersHTML = '';
                 if (selectedCount > 0) { const playerNames = match.composition.selected.map(id => { const p = playersData.find(pl => pl.id === id); return p ? `<li>${p.name}</li>` : ''; }).join(''); selectedPlayersHTML = `<div class="selected-players-section"><h4>Équipe sélectionnée</h4><ul class="selected-players-list">${playerNames}</ul></div>`; }
                 const formattedDate = new Date(match.date).toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -138,26 +138,8 @@
         // --- MODAL LOGIC ---
         const openModal = (modal, backdrop) => { backdrop.classList.add('visible'); modal.classList.add('visible'); };
         const closeModal = (modal, backdrop) => { backdrop.classList.remove('visible'); modal.classList.remove('visible'); };
-        const openCompositionModal = (matchId) => {
-            currentEditingMatchId = matchId;
-            const match = matchesData.find(m => m.id === matchId);
-            if (!match) return;
-            tempComposition = JSON.parse(JSON.stringify(match.composition));
-            modalTitle.textContent = `Équipe pour le match`;
-            modalSubtitle.textContent = `${match.homeTeam} vs ${match.awayTeam}`;
-            renderCompositionModalContent();
-            openModal(compositionModal, modalBackdrop);
-        };
-        const openScoreModal = (matchId) => {
-            currentEditingMatchId = matchId;
-            const match = matchesData.find(m => m.id === matchId);
-            if (!match) return;
-            scoreModalSubtitle.textContent = `${match.homeTeam} vs ${match.awayTeam}`;
-            opponentScoreLabel.textContent = match.venue === 'home' ? match.awayTeam : match.homeTeam;
-            alsatiaScoreInput.value = match.score.alsatia || 0;
-            opponentScoreInput.value = match.score.opponent || 0;
-            openModal(scoreModal, scoreModalBackdrop);
-        };
+        const openCompositionModal = (matchId) => { currentEditingMatchId = matchId; const match = matchesData.find(m => m.id === matchId); if (!match) return; tempComposition = JSON.parse(JSON.stringify(match.composition)); modalTitle.textContent = `Équipe pour le match`; modalSubtitle.textContent = `${match.homeTeam} vs ${match.awayTeam}`; renderCompositionModalContent(); openModal(compositionModal, modalBackdrop); };
+        const openScoreModal = (matchId) => { currentEditingMatchId = matchId; const match = matchesData.find(m => m.id === matchId); if (!match) return; scoreModalSubtitle.textContent = `${match.homeTeam} vs ${match.awayTeam}`; opponentScoreLabel.textContent = match.venue === 'home' ? match.awayTeam : match.homeTeam; alsatiaScoreInput.value = match.score.alsatia || 0; opponentScoreInput.value = match.score.opponent || 0; openModal(scoreModal, scoreModalBackdrop); };
         const renderCompositionModalContent = () => { playerList.innerHTML = ''; playersData.forEach(p => { const li = document.createElement('li'); let s = 'noresponse'; if (tempComposition.available.includes(p.id)) s = 'available'; if (tempComposition.unavailable.includes(p.id)) s = 'unavailable'; const isSel = tempComposition.selected.includes(p.id); const canBeSel = s === 'available' && !isSel && tempComposition.selected.length < TEAM_SIZE; li.innerHTML = `<span class="player-name">${p.name}</span><span class="player-actions"><button style="visibility:${canBeSel?'visible':'hidden'}" title="Sélectionner" data-action="select-player" data-player-id="${p.id}">➕</button><button class="status-btn ${s==='available'?'active':''}" title="Disponible" data-action="set-status" data-status="available" data-player-id="${p.id}">✔️</button><button class="status-btn ${s==='unavailable'?'active':''}" title="Indisponible" data-action="set-status" data-status="unavailable" data-player-id="${p.id}">❌</button><button class="status-btn ${s==='noresponse'?'active':''}" title="Pas de réponse" data-action="set-status" data-status="noresponse" data-player-id="${p.id}">❔</button></span>`; playerList.appendChild(li); }); selectedTeamList.innerHTML = ''; if (tempComposition.selected.length > 0) { tempComposition.selected.forEach(id => { const p = playersData.find(pl => pl.id === id); if(p) { const li = document.createElement('li'); li.innerHTML = `<span>${p.name}</span> <button class="player-actions" style="background:transparent" title="Retirer" data-action="deselect-player" data-player-id="${p.id}">➖</button>`; selectedTeamList.appendChild(li); }}); } else { selectedTeamList.innerHTML = `<li class="placeholder">Aucun joueur sélectionné</li>`; } teamCompositionStatus.textContent = `${tempComposition.selected.length} / ${TEAM_SIZE} joueurs`; };
         const handleCompositionAction = (e) => { const t = e.target.closest('button'); if (!t) return; const action = t.dataset.action; const pId = parseInt(t.dataset.playerId, 10); if (action === 'set-status') { ['available','unavailable','noresponse'].forEach(k => {tempComposition[k]=tempComposition[k].filter(id=>id!==pId)}); tempComposition[t.dataset.status].push(pId); if(t.dataset.status!=='available'){tempComposition.selected=tempComposition.selected.filter(id=>id!==pId)}; } else if (action === 'select-player' && tempComposition.selected.length < TEAM_SIZE) { tempComposition.selected.push(pId); } else if (action === 'deselect-player') { tempComposition.selected = tempComposition.selected.filter(id => id !== pId); } renderCompositionModalContent(); };
         
