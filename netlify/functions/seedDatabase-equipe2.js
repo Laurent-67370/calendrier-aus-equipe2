@@ -17,7 +17,14 @@ const initialMatchesData = [
     { id: 'J4', journee: 4, homeTeam: 'TT-SOUFFEL 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2025-10-31', time: '20h30', venue: 'away', month: 'october', composition: getDefaultComposition(), score: getDefaultScore() },
     { id: 'J5', journee: 5, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'GERSTHEIM ST DENIS 3', date: '2025-11-20', time: '20h15', venue: 'home', month: 'november', composition: getDefaultComposition(), score: getDefaultScore() },
     { id: 'J6', journee: 6, homeTeam: 'STBG RACING CLUB 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2025-12-05', time: '20h15', venue: 'away', month: 'december', composition: getDefaultComposition(), score: getDefaultScore() },
-    { id: 'J7', journee: 7, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'VENDENHEIM ENVOLEE 2', date: '2025-12-18', time: '20h15', venue: 'home', month: 'december', composition: getDefaultComposition(), score: getDefaultScore() }
+    { id: 'J7', journee: 7, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'VENDENHEIM ENVOLEE 2', date: '2025-12-18', time: '20h15', venue: 'home', month: 'december', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J8', journee: 8, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'OBERNAI CA 2', date: '2026-01-22', time: '20h15', venue: 'home', month: 'january', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J9', journee: 9, homeTeam: 'ENT. LINGOLSHEIM/CH.STRASBOURG 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-01-28', time: '20h00', venue: 'away', month: 'january', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J10', journee: 10, homeTeam: 'LA WANTZENAU ST PAUL 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-02-11', time: '20h00', venue: 'away', month: 'february', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J11', journee: 11, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'TT-SOUFFEL 1', date: '2026-03-12', time: '20h15', venue: 'home', month: 'march', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J12', journee: 12, homeTeam: 'GERSTHEIM ST DENIS 3', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-04-03', time: '20h00', venue: 'away', month: 'april', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J13', journee: 13, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'STBG RACING CLUB 1', date: '2026-04-23', time: '20h15', venue: 'home', month: 'april', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J14', journee: 14, homeTeam: 'VENDENHEIM ENVOLEE 2', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-05-15', time: '20h00', venue: 'away', month: 'may', composition: getDefaultComposition(), score: getDefaultScore() }
 ];
 
 if (!admin.apps.length) {
@@ -34,15 +41,38 @@ const db = admin.firestore();
 exports.handler = async function(event, context) {
   try {
     const matchesCollection = db.collection('matches-equipe2');
-    const matchesSnapshot = await matchesCollection.get();
-    if (matchesSnapshot.empty) {
-        const matchesBatch = db.batch();
-        initialMatchesData.forEach(match => {
-            matchesBatch.set(matchesCollection.doc(match.id), match);
-        });
-        await matchesBatch.commit();
-    }
 
+    // Récupérer tous les matchs existants
+    const matchesSnapshot = await matchesCollection.get();
+    const existingMatches = {};
+    matchesSnapshot.forEach(doc => {
+      existingMatches[doc.id] = doc.data();
+    });
+
+    // Ajouter ou mettre à jour les matchs
+    const matchesBatch = db.batch();
+    let addedCount = 0;
+    let updatedCount = 0;
+
+    initialMatchesData.forEach(match => {
+      const existingMatch = existingMatches[match.id];
+
+      if (existingMatch) {
+        // Match existe déjà : préserver composition et score
+        match.composition = existingMatch.composition || match.composition;
+        match.score = existingMatch.score || match.score;
+        updatedCount++;
+      } else {
+        // Nouveau match
+        addedCount++;
+      }
+
+      matchesBatch.set(matchesCollection.doc(match.id), match);
+    });
+
+    await matchesBatch.commit();
+
+    // Gérer les joueurs (comme avant)
     const playersCollection = db.collection('players-equipe2');
     const playersSnapshot = await playersCollection.get();
     if (playersSnapshot.empty) {
@@ -52,10 +82,15 @@ exports.handler = async function(event, context) {
         });
         await playersBatch.commit();
     }
-    
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Base de données initialisée ou déjà existante." }),
+      body: JSON.stringify({
+        message: "Base de données mise à jour avec succès.",
+        matchesAdded: addedCount,
+        matchesUpdated: updatedCount,
+        totalMatches: initialMatchesData.length
+      }),
     };
   } catch (error) {
     console.error("Erreur lors de l'initialisation de la base : ", error);
