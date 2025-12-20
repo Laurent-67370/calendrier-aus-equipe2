@@ -41,15 +41,38 @@ const db = admin.firestore();
 exports.handler = async function(event, context) {
   try {
     const matchesCollection = db.collection('matches-equipe2');
-    const matchesSnapshot = await matchesCollection.get();
-    if (matchesSnapshot.empty) {
-        const matchesBatch = db.batch();
-        initialMatchesData.forEach(match => {
-            matchesBatch.set(matchesCollection.doc(match.id), match);
-        });
-        await matchesBatch.commit();
-    }
 
+    // Récupérer tous les matchs existants
+    const matchesSnapshot = await matchesCollection.get();
+    const existingMatches = {};
+    matchesSnapshot.forEach(doc => {
+      existingMatches[doc.id] = doc.data();
+    });
+
+    // Ajouter ou mettre à jour les matchs
+    const matchesBatch = db.batch();
+    let addedCount = 0;
+    let updatedCount = 0;
+
+    initialMatchesData.forEach(match => {
+      const existingMatch = existingMatches[match.id];
+
+      if (existingMatch) {
+        // Match existe déjà : préserver composition et score
+        match.composition = existingMatch.composition || match.composition;
+        match.score = existingMatch.score || match.score;
+        updatedCount++;
+      } else {
+        // Nouveau match
+        addedCount++;
+      }
+
+      matchesBatch.set(matchesCollection.doc(match.id), match);
+    });
+
+    await matchesBatch.commit();
+
+    // Gérer les joueurs (comme avant)
     const playersCollection = db.collection('players-equipe2');
     const playersSnapshot = await playersCollection.get();
     if (playersSnapshot.empty) {
@@ -59,10 +82,15 @@ exports.handler = async function(event, context) {
         });
         await playersBatch.commit();
     }
-    
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: "Base de données initialisée ou déjà existante." }),
+      body: JSON.stringify({
+        message: "Base de données mise à jour avec succès.",
+        matchesAdded: addedCount,
+        matchesUpdated: updatedCount,
+        totalMatches: initialMatchesData.length
+      }),
     };
   } catch (error) {
     console.error("Erreur lors de l'initialisation de la base : ", error);
