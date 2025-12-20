@@ -17,7 +17,14 @@ const initialMatchesData = [
     { id: 'J4', journee: 4, homeTeam: 'TT-SOUFFEL 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2025-10-31', time: '20h30', venue: 'away', month: 'october', composition: getDefaultComposition(), score: getDefaultScore() },
     { id: 'J5', journee: 5, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'GERSTHEIM ST DENIS 3', date: '2025-11-20', time: '20h15', venue: 'home', month: 'november', composition: getDefaultComposition(), score: getDefaultScore() },
     { id: 'J6', journee: 6, homeTeam: 'STBG RACING CLUB 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2025-12-05', time: '20h15', venue: 'away', month: 'december', composition: getDefaultComposition(), score: getDefaultScore() },
-    { id: 'J7', journee: 7, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'VENDENHEIM ENVOLEE 2', date: '2025-12-18', time: '20h15', venue: 'home', month: 'december', composition: getDefaultComposition(), score: getDefaultScore() }
+    { id: 'J7', journee: 7, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'VENDENHEIM ENVOLEE 2', date: '2025-12-18', time: '20h15', venue: 'home', month: 'december', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J8', journee: 8, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'OBERNAI CA 2', date: '2026-01-22', time: '20h15', venue: 'home', month: 'january', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J9', journee: 9, homeTeam: 'ENT. LINGOLSHEIM/CH.STRASBOURG 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-01-28', time: '20h00', venue: 'away', month: 'january', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J10', journee: 10, homeTeam: 'LA WANTZENAU ST PAUL 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-02-11', time: '20h00', venue: 'away', month: 'february', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J11', journee: 11, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'TT-SOUFFEL 1', date: '2026-03-12', time: '20h15', venue: 'home', month: 'march', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J12', journee: 12, homeTeam: 'GERSTHEIM ST DENIS 3', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-04-03', time: '20h00', venue: 'away', month: 'april', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J13', journee: 13, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'STBG RACING CLUB 1', date: '2026-04-23', time: '20h15', venue: 'home', month: 'april', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'J14', journee: 14, homeTeam: 'VENDENHEIM ENVOLEE 2', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-05-15', time: '20h00', venue: 'away', month: 'may', composition: getDefaultComposition(), score: getDefaultScore() }
 ];
 
 if (!admin.apps.length) {
