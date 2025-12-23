@@ -32,6 +32,7 @@
         .player-edit-list label { font-weight: 600; color: var(--text-secondary); }
         .player-edit-list input { width: 100%; padding: 0.5rem; border: 2px solid var(--border-color); border-radius: 4px; background-color: var(--card-bg); color: var(--text-primary); }
         .player-delete-btn { background: transparent; border: none; color: var(--score-loss-bg); cursor: pointer; font-size: 1.5rem; padding: 0 0.5rem; opacity: 0.7; transition: opacity 0.2s; }
+        .ranking-modal{max-width:900px}.ranking-table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:0.9rem}.ranking-table th,.ranking-table td{padding:0.75rem 0.5rem;text-align:center;border:1px solid var(--border-color)}.ranking-table th{background:var(--text-primary);color:#fff;font-weight:600;font-size:0.85rem}.ranking-table tr:nth-child(even){background:var(--info-bg)}.ranking-table tr.highlight{background:linear-gradient(135deg,rgba(250,112,154,0.2) 0,rgba(254,225,64,0.2) 100%);font-weight:700}.ranking-table td:first-child{font-weight:700;color:var(--text-primary)}.lexique{margin-top:1.5rem;padding:1rem;background:var(--info-bg);border-radius:8px}.lexique h4{color:var(--text-primary);margin-bottom:0.75rem;font-size:1rem}.lexique ul{list-style:none;padding:0}.lexique li{padding:0.4rem 0;font-size:0.85rem;color:var(--text-secondary)}.lexique strong{color:var(--text-primary);font-weight:600}
         .player-delete-btn:hover { opacity: 1; }
         .add-player-btn { background-color: transparent; border: 2px dashed var(--text-primary); color: var(--text-primary); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 1rem; width: 100%; transition: all 0.2s; }
         .add-player-btn:hover { background-color: var(--text-primary); color: var(--card-bg); }
@@ -46,7 +47,7 @@
                 <div></div>
                 <div class="header-controls">
                     <a href="https://aus-calendriers.netlify.app/" class="help-btn" aria-label="Retour à l'accueil">🏠 <span>Accueil</span></a>
-                    <a href="https://www.agr-tt.fr/agrtt67/index.php?option=com_wrapper&view=wrapper&Itemid=47" class="help-btn" target="_blank" aria-label="Voir le classement">🏆 <span>Classement</span></a>
+                    <button type="button" class="help-btn" id="rankingBtn" aria-label="Voir le classement">🏆 <span>Classement</span></button>
                     <button type="button" class="help-btn" id="editPlayersBtn">✏️ <span>Effectif</span></button>
                     <button type="button" class="help-btn" id="helpBtn" aria-label="Aide et guide d'utilisation">💡<span>Aide</span></button>
                     <button type="button" class="install-btn hidden" id="installBtn" aria-label="Installer l'application"><span>📱</span> <span>Installer</span></button>
@@ -131,6 +132,131 @@
         <div class="modal-footer"><button type="button" class="action-btn" id="cancelPlayersBtn" style="background: var(--text-secondary);">Annuler</button><button type="button" class="action-btn" id="savePlayersBtn">Sauvegarder</button></div>
     </div>
 
+    <div class="modal-backdrop" id="rankingModalBackdrop"></div>
+    <div class="modal ranking-modal" id="rankingModal" role="dialog" aria-modal="true" aria-labelledby="rankingModalTitle">
+        <div class="modal-header"><h3 id="rankingModalTitle">🏆 Classement - HONNEUR Poule D</h3><p>Championnat MESSIEURS - Secteur Départemental</p></div>
+        <div class="modal-body">
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th>Rang</th>
+                        <th>Équipe</th>
+                        <th>Points</th>
+                        <th>J</th>
+                        <th>G</th>
+                        <th>N</th>
+                        <th>P</th>
+                        <th>PJ G</th>
+                        <th>PJ P</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>LA WANTZENAU ST PAUL 1</td>
+                        <td>31</td>
+                        <td>7</td>
+                        <td>7</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>107</td>
+                        <td>53</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>VENDENHEIM ENVOLEE 2</td>
+                        <td>26</td>
+                        <td>7</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>93</td>
+                        <td>47</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td>3</td>
+                        <td>ALSATIA UNITAS SCHILTIGHEIM 2</td>
+                        <td>25</td>
+                        <td>7</td>
+                        <td>4</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>77</td>
+                        <td>63</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>OBERNAI CA 2</td>
+                        <td>22</td>
+                        <td>7</td>
+                        <td>4</td>
+                        <td>0</td>
+                        <td>3</td>
+                        <td>69</td>
+                        <td>71</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>STBG RACING CLUB 1</td>
+                        <td>21</td>
+                        <td>7</td>
+                        <td>4</td>
+                        <td>0</td>
+                        <td>3</td>
+                        <td>69</td>
+                        <td>71</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>GERSTHEIM ST DENIS 3</td>
+                        <td>17</td>
+                        <td>7</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>5</td>
+                        <td>61</td>
+                        <td>79</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>TT-SOUFFEL 1</td>
+                        <td>13</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>6</td>
+                        <td>43</td>
+                        <td>97</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>ENT. LINGOLSHEIM/CH.STRASBOURG 1</td>
+                        <td>12</td>
+                        <td>7</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>7</td>
+                        <td>41</td>
+                        <td>99</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="lexique">
+                <h4>📖 Lexique</h4>
+                <ul>
+                    <li><strong>Points :</strong> Points résultat (victoire = 5 pts, nul = 3 pts, défaite = 1 pt)</li>
+                    <li><strong>J :</strong> Matchs Joués</li>
+                    <li><strong>G :</strong> Matchs Gagnés</li>
+                    <li><strong>N :</strong> Matchs Nuls</li>
+                    <li><strong>P :</strong> Matchs Perdus</li>
+                    <li><strong>PJ G :</strong> Points Jeu Gagnés (somme des parties gagnées)</li>
+                    <li><strong>PJ P :</strong> Points Jeu Perdus (somme des parties perdues)</li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer"><button type="button" class="action-btn" id="closeRankingBtn">Fermer</button></div>
+    </div>
+
     <script>
     (function() {
         'use strict';
@@ -148,7 +274,8 @@
         const pwaStatus = document.getElementById('pwaStatus'), installBtn = document.getElementById('installBtn');
         const scoreModal = document.getElementById('scoreModal'), scoreModalBackdrop = document.getElementById('scoreModalBackdrop'), scoreModalTitle = document.getElementById('scoreModalTitle'), scoreModalSubtitle = document.getElementById('scoreModalSubtitle'), alsatiaScoreInput = document.getElementById('alsatiaScoreInput'), opponentScoreInput = document.getElementById('opponentScoreInput'), opponentScoreLabel = document.getElementById('opponentScoreLabel'), saveScoreBtn = document.getElementById('saveScoreBtn'), cancelScoreBtn = document.getElementById('cancelScoreBtn');
         const editPlayersBtn = document.getElementById('editPlayersBtn'), playersModal = document.getElementById('playersModal'), playersModalBackdrop = document.getElementById('playersModalBackdrop'), playerEditList = document.getElementById('playerEditList'), savePlayersBtn = document.getElementById('savePlayersBtn'), cancelPlayersBtn = document.getElementById('cancelPlayersBtn'), addPlayerBtn = document.getElementById('addPlayerBtn');
-        
+        const rankingBtn = document.getElementById('rankingBtn'), rankingModal = document.getElementById('rankingModal'), rankingModalBackdrop = document.getElementById('rankingModalBackdrop'), closeRankingBtn = document.getElementById('closeRankingBtn');
+
         let matchesData = [], currentFilter = 'all', currentSearch = '', currentEditingMatchId = null, tempComposition = null, deferredPrompt;
 
         async function loadMatchesData() { try { const response = await fetch('/.netlify/functions/getMatches-equipe2'); if (!response.ok) throw new Error('API error'); const data = await response.json(); data.sort((a, b) => a.journee - b.journee); return data.map(match => ({ ...match, composition: match.composition || getDefaultComposition(), score: match.score || getDefaultScore() })); } catch (error) { console.error("Load error:", error); resultsInfo.textContent = "Erreur de chargement."; return []; } }
@@ -229,11 +356,14 @@
         playerEditList.addEventListener('click', (e) => { if (e.target.classList.contains('player-delete-btn')) { const row = e.target.closest('li'); if (confirm(`Êtes-vous sûr de vouloir supprimer ce joueur ? Cette action est irréversible.`)) { row.remove(); } } });
         cancelPlayersBtn.addEventListener('click', () => closeModal(playersModal, playersModalBackdrop));
         savePlayersBtn.addEventListener('click', async () => { const updatedPlayers = []; const rows = playerEditList.querySelectorAll('li'); rows.forEach(row => { const id = parseInt(row.dataset.playerId, 10); const input = row.querySelector('input'); const name = input.value.trim(); if (name) { updatedPlayers.push({ id, name }); } }); updatedPlayers.sort((a, b) => a.id - b.id); await savePlayers(updatedPlayers); playersData = updatedPlayers; applyFilters(); closeModal(playersModal, playersModalBackdrop); });
-        
+        rankingBtn.addEventListener('click', () => openModal(rankingModal, rankingModalBackdrop));
+        closeRankingBtn.addEventListener('click', () => closeModal(rankingModal, rankingModalBackdrop));
+
         modalBackdrop.addEventListener('click', () => closeModal(compositionModal, modalBackdrop));
         helpModalBackdrop.addEventListener('click', () => closeModal(helpModal, helpModalBackdrop));
         scoreModalBackdrop.addEventListener('click', () => closeModal(scoreModal, scoreModalBackdrop));
         playersModalBackdrop.addEventListener('click', () => closeModal(playersModal, playersModalBackdrop));
+        rankingModalBackdrop.addEventListener('click', () => closeModal(rankingModal, rankingModalBackdrop));
 
         searchInput.addEventListener('input', e => { currentSearch=e.target.value.toLowerCase(); applyFilters(); });
         filterButtons.forEach(b => { b.addEventListener('click', () => { filterButtons.forEach(btn=>btn.classList.remove('active')); b.classList.add('active'); currentFilter=b.dataset.filter; applyFilters(); }); });
