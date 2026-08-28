@@ -1,6 +1,6 @@
 # 🏓 Calendrier PWA - ALSATIA UNITAS SCHILTIGHEIM Équipe 2
 
-Bienvenue sur le projet de l'application PWA (Progressive Web App) pour la gestion du calendrier et de la composition de l'équipe 2 de l'AUS Schiltigheim pour la saison 2025-2026.
+Bienvenue sur le projet de l'application PWA (Progressive Web App) pour la gestion du calendrier et de la composition de l'équipe 2 de l'AUS Schiltigheim pour la saison 2026-2027.
 
 Cette application est conçue pour être simple, rapide et collaborative, permettant à tous les membres de l'équipe de consulter le calendrier et de voir la composition des équipes en temps réel.
 
