@@ -19,7 +19,7 @@ const initialMatchesData = [
     { id: 'N3', journee: 3, homeTeam: 'STBG RACING CLUB 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-10-09', time: '20h15', venue: 'away', month: 'october', season: '2026-2027', composition: getDefaultComposition(), score: getDefaultScore() },
     { id: 'N4', journee: 4, homeTeam: 'ENT. LINGOLSHEIM/CH.STRASBOURG 1', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-10-27', time: '20h15', venue: 'away', month: 'october', season: '2026-2027', composition: getDefaultComposition(), score: getDefaultScore() },
     { id: 'N5', journee: 5, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'VENDENHEIM ENVOLEE 2', date: '2026-11-12', time: '20h15', venue: 'home', month: 'november', season: '2026-2027', composition: getDefaultComposition(), score: getDefaultScore() },
-    { id: 'N6', journee: 6, homeTeam: 'DORLISHEIM SD 3', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-11-27', time: '20h15', venue: 'away', month: 'november', season: '2026-2027', composition: getDefaultComposition(), score: getDefaultScore() },
+    { id: 'N6', journee: 6, homeTeam: 'DORLISHEIM SD 3', awayTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', date: '2026-11-27', time: '20h', venue: 'away', month: 'november', season: '2026-2027', composition: getDefaultComposition(), score: getDefaultScore() },
     { id: 'N7', journee: 7, homeTeam: 'ALSATIA UNITAS SCHILTIGHEIM 2', awayTeam: 'LA WANTZENAU ST PAUL 2', date: '2026-12-17', time: '20h15', venue: 'home', month: 'december', season: '2026-2027', composition: getDefaultComposition(), score: getDefaultScore() },
 
     // --- 2ème phase (RETOUR, J8-J14) — PDF AGR Secteur Départemental, ajoutée
