@@ -11,6 +11,7 @@ Cette application est conçue pour être simple, rapide et collaborative, permet
     *   Indiquez les disponibilités de chaque joueur (Disponible, Indisponible, Pas de réponse).
     *   Composez l'équipe de 4 joueurs pour chaque rencontre.
     *   Toutes les modifications sont sauvegardées en ligne et visibles par tous les membres.
+*   **🏆 Classement :** Bouton **"🏆 Classement"** pour consulter le classement de la poule (l'équipe est mise en évidence).
 *   **📄 Feuille de Match :** Photographiez (ou importez) la feuille de match après la rencontre : elle est compressée, enregistrée avec le match et consultable par tous.
 *   **📱 Progressive Web App (PWA) :** Installez l'application sur l'écran d'accueil de votre téléphone pour un accès rapide et une utilisation hors ligne.
 *   **🎨 Thème Sombre :** Basculez entre le mode clair et le mode sombre pour un meilleur confort visuel.
@@ -67,6 +68,10 @@ Un script `seedDatabase-equipe2.js` est inclus pour remplir la base de données 
 
 1.  Après le premier déploiement, visitez l'URL : `https://VOTRE-SITE.netlify.app/.netlify/functions/seedDatabase-equipe2`.
 2.  Une fois les données insérées, il est recommandé de supprimer ce fichier du projet et de redéployer.
+
+### Classement de la poule
+
+Contrairement aux équipes 1 et 3, le classement de l'équipe 2 n'est pas stocké en base : c'est un tableau écrit directement dans `index.html` (fenêtre `rankingModal`). Pour le mettre à jour après une journée, modifiez les lignes du tableau ainsi que le sous-titre « Après Journée N » dans `index.html`, puis poussez sur `main`.
 
 ---
 _Application développée pour faciliter l'organisation de l'équipe._
